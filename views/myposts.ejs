@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Posts</title>
+</head>
+<body>
+    <% for(let i of user_pos) { %>
+        <li class="postl">
+            <div class="details">
+                <p><%= i.fullname%></p>
+                <p><%=i.city%></p>
+                <p><img src="/uploads/<%=i.image%>" alt="user_image"></p>
+                </div>
+        </li>
+        <%} %> 
+</body>
+</html>
