@@ -18,6 +18,7 @@ const multer = require('multer');
 
 const user_control = require('./controller/user_controller');
 const { mongo } = require('mongoose');
+const Post_found = require('./models/post_found');
 
 app.use(express.urlencoded());
 app.use(cookieParser());
@@ -64,11 +65,12 @@ var upload = multer({
 app.get('/', function(req, res) {
     Post.find({}, function(err, uploads) {
         if(err) {
-            console.log('err');
+            console.log(err);
         }
         res.render('home', 
             {
-                post_list : uploads
+                post_list : uploads,
+                user : req.user
             }        
         );
     } )
@@ -98,7 +100,8 @@ app.post('/submit-signup', upload,function(req, res) {
                 console.log('error in loading');
             }
             res.render('home',{
-                post_list : upload
+                post_list : upload,
+                user : req.user
             }
             )
         })
@@ -135,6 +138,7 @@ app.post('/submit-profile',upload, passport.checkAuthentication, function(req, r
     Post.create({
         firstname : req.body.firstname,
         Father : req.body.Father,
+        unique : req.body.unique,
         contact : req.body.contact,
         Address : req.body.Address,
         city : req.body.city,
@@ -153,7 +157,8 @@ app.post('/submit-profile',upload, passport.checkAuthentication, function(req, r
                 console.log('err');
             }
             res.render('home', {
-                post_list : upload
+                post_list : upload,
+                user : req.user
             })
         })
     });
@@ -190,6 +195,36 @@ app.get('/myPosts',passport.checkAuthentication, function(req, res) {
     })
 })
 
+
+
+// rendering person found form 
+app.get('/postFound', function(req, res) {
+    
+     
+            return res.render('personF')
+        
+    });
+//submitting post found form
+app.post('/person-found-form',upload,  function(req, res) {
+    Post_found.create({
+        unique_name : req.body.unique_name,
+        yname : req.body.yname,
+        email : req.body.email,
+        phone : req.body.phone,
+        address : req.body.address,
+        nps : req.body.nps,
+        details : req.body.details,
+        image : req.file.filename,
+    },
+    function(err, post) {
+        if(err) {
+            console.log(err);
+        }
+        else {
+            console.log(post);
+        }
+    });
+})
 //Starting the server
 app.listen(port, function(err) {
     if(err) {

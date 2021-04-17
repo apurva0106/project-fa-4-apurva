@@ -11,6 +11,11 @@ const postSchema = new mongoose.Schema({
         type : String,
         required : true
     },
+    unique : {
+        type : String,
+        required : true,
+        unique : true
+    },
     contact : {
         type : String,
         required: true
@@ -32,7 +37,8 @@ const postSchema = new mongoose.Schema({
     },
     user : {
         type : String
-    }
+    },
+    
 
 
 }

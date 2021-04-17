@@ -9,7 +9,9 @@ module.exports.createSession = function(req, res) {
         }
         res.render('home', 
         {
-            post_list : upload
+            post_list : upload,
+            user : req.user
+            
         })
     })
 }
